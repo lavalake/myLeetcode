@@ -13,3 +13,14 @@ Step 4: Reverse the entire sentence.
 
 The idea for both the whitespace cleanup code and the reverse code is two use two indices (or iterators or the like) to look for whitespace and non whitespace characters and handle the group of characters between them accordingly
 */
+following use stringstream, but not O(1) space
+void reverseWords(string &s) {
+        stringstream is(s);
+        is >> s;
+        string temp;
+        while(is >> temp){
+            s = temp + " " + s;
+        }
+        if(s[0] == ' ') s="";
+        
+    }
