@@ -1,1 +1,15 @@
 
+http://www.ardendertat.com/2012/01/09/programming-interview-questions/
+https://leetcode.com/discuss/16669/c-solution-in-place-runtime-o-n-memory-o-1
+' ' " " or " \t"??????
+ Reverse Words in a String
+  /*Step 1: Trim whitespace from the beginning and end of the string.
+
+Step 2: Clean up whitespace between words.
+
+Step 3: Reverse each word in the sentence.
+
+Step 4: Reverse the entire sentence.
+
+The idea for both the whitespace cleanup code and the reverse code is two use two indices (or iterators or the like) to look for whitespace and non whitespace characters and handle the group of characters between them accordingly
+*/
