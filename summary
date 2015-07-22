@@ -70,7 +70,7 @@ string longestPalindrome(string s) {
 Letter Combinations of a Phone Number
 https://leetcode.com/discuss/42518/iterative-c-solution-in-0ms
 use swap becasue swap dows not use memcpy
-
+This is iterative version
 vector<string> letterCombinations(string digits) {
         const vector<string> converter = {"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
         vector<string> result;
@@ -95,3 +95,29 @@ vector<string> letterCombinations(string digits) {
         }
         return result;
     }
+    
+this is back tracking version or dfs version
+public:
+    vector<string> letterCombinations(string digits) {
+        const vector<string> converter = {"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+        vector<string> result;
+        if(digits.empty())
+            return result;
+        string path;
+        backTrack(converter, digits, path, 0,result);
+        return result;
+    }
+private:
+    void backTrack(const vector<string> &c,const string &digits,string &p,int index,vector<string> &r){
+        if(index == digits.size()){
+            r.push_back(p);
+            return;
+        }
+        for(int i=0; i<c[digits[index]-'0'].size(); ++i){
+            p.push_back(c[digits[index]-'0'][i]);
+            backTrack(c,digits,p,index+1,r);
+            p.pop_back();
+        }
+            
+    }
+    
