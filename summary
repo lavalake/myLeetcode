@@ -96,7 +96,7 @@ vector<string> letterCombinations(string digits) {
         return result;
     }
     
-this is back tracking version or dfs version
+this is back tracking version or dfs version or recursive version
 public:
     vector<string> letterCombinations(string digits) {
         const vector<string> converter = {"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
@@ -104,18 +104,18 @@ public:
         if(digits.empty())
             return result;
         string path;
-        backTrack(converter, digits, path, 0,result);
+        backTrack(converter, digits, path,result);
         return result;
     }
 private:
-    void backTrack(const vector<string> &c,const string &digits,string &p,int index,vector<string> &r){
-        if(index == digits.size()){
+    void backTrack(const vector<string> &c,const string &digits,string &p,vector<string> &r){
+        if(p.size() == digits.size()){
             r.push_back(p);
             return;
         }
-        for(int i=0; i<c[digits[index]-'0'].size(); ++i){
-            p.push_back(c[digits[index]-'0'][i]);
-            backTrack(c,digits,p,index+1,r);
+        for(int i=0; i<c[digits[p.size()]-'0'].size(); ++i){
+            p.push_back(c[digits[p.size()]-'0'][i]);
+            backTrack(c,digits,p,r);
             p.pop_back();
         }
             
