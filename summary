@@ -65,3 +65,33 @@ string longestPalindrome(string s) {
        }
        return s.substr(start,maxLen);
     }
+
+
+Letter Combinations of a Phone Number
+https://leetcode.com/discuss/42518/iterative-c-solution-in-0ms
+use swap becasue swap dows not use memcpy
+
+vector<string> letterCombinations(string digits) {
+        const vector<string> converter = {"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+        vector<string> result;
+        if(digits.empty())
+            return result;
+        result.push_back("");
+        for(auto d:digits){
+            int n = result.size();
+            int m = converter[d-'0'].size();
+            const string& str = converter[d-'0'];
+            if(str.empty())
+                continue;
+            vector<string> temp;
+            
+            for(int i=0; i<m; ++i){
+                
+                for(int j=0; j<n; ++j){
+                    temp.push_back(result[j]+str[i]);
+                }
+            }
+            result.swap(temp);
+        }
+        return result;
+    }
