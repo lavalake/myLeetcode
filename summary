@@ -205,3 +205,27 @@ private:
         return false;
             
     }
+
+
+max sub array
+ /* it depends on whether the sum of previous elements is negative or positive.
+    *  if it's negative, then it will not contribute any to following sums, so discard the
+    *  negative sum and reset sum to current element
+    *  if it's positive, then it will contribute to the sum of following sums, so add current
+    *  element to the sum.
+    */
+public:
+    int maxSubArray(vector<int>& nums) {
+        if(nums.empty())
+            return 0;
+        int len = nums.size();
+        int result=nums[0],sum=nums[0];
+        for(int i=1; i<len; ++i){
+            if(sum<0)
+                sum = nums[i];
+            else
+                sum += nums[i];
+            result = max(result,sum);
+        }
+        return result;
+    }
