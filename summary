@@ -121,3 +121,87 @@ private:
             
     }
     
+
+Decode Ways
+DP solution
+int numDecodings(string s) {
+        int len = s.size();
+        if(len == 0 || s[0] == '0')
+            return 0;
+        int r1=1, r2=1;
+        for(int i=1; i<len; ++i){
+            if(s[i] == '0')
+                r1 = 0;
+            if(s[i-1]=='1' ||(s[i-1]=='2' && s[i]<='6')){
+                r1 = r1+r2;
+                r2 = r1 - r2;
+            }else{
+                r2=r1;
+            }
+        }
+        return r1;
+    }
+    
+subsets
+back tracking. 
+    public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        sort(nums.begin(),nums.end());
+        unique(nums.begin(),nums.end());
+        vector<vector<int>> result;
+        vector<int> set;
+        result.push_back(set);
+        getSet(nums, 0, set, result);
+        return result;
+    }
+private:
+    void getSet(vector<int> &nums, int index, vector<int> &s, vector<vector<int>> &r){
+        if(index>nums.size())
+            return;
+        for(int i=index; i<nums.size(); ++i){
+            s.push_back(nums[i]);
+            r.push_back(s);
+            getSet(nums, i+1, s, r);
+            s.pop_back();
+        }
+    }
+    
+    
+    Search a 2D Matrix 
+    1. use binary search to find the row
+    2. use binary search to find the col
+    public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int row = matrix.size();
+        int col = matrix[0].size();
+        int mid;
+        int start = 0, end = row-1;
+        //not start <= end
+        while(start <= end){
+            mid = (start+end)/2;
+            if(matrix[mid][0]>target)
+                end = mid - 1;
+            else if(matrix[mid][col-1]<target)
+                start = mid + 1;
+            else
+                break;
+        }
+        if(start > end)
+            return false;
+        int targetRow = mid;
+        start=0;
+        end = col - 1;
+        //note start <= end
+        while(start<=end){
+            mid = (start+end)/2;
+            if(matrix[targetRow][mid]<target)
+                start = mid+1;
+            else if(matrix[targetRow][mid]>target)
+                end = mid-1 ;
+            else
+                return true;
+        }
+        //note need this return when can not find the target!!!!!!!!
+        return false;
+            
+    }
