@@ -229,3 +229,59 @@ public:
         }
         return result;
     }
+
+Permutation
+public:
+/* swap the first node with every following node and caculate the permutation
+ * recursively call this method for the remaining nums
+ */
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> result;
+        
+        dfs(nums,0, result);
+        return result;
+    }
+private:
+    void dfs(vector<int>& nums, int len, vector<vector<int>>& r){
+        if(len == nums.size()){
+            r.push_back(nums);
+            return;
+        }
+        for(int i=len; i<nums.size(); ++i){
+            swap(nums[i], nums[len]);
+            dfs(nums, len+1, r);
+            swap(nums[i],nums[len]);
+        }
+    }
+};
+first resolution: use recursive backtracking
+public:
+/* use a flag vector to remember which number has been chosen.
+ * pick one number and get the permutation of the remaining numbers
+ * recursivly call this method
+ */
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> result;
+        vector<int> path;
+        vector<bool> flag(nums.size(), false); //indicate whether the number has been chosen
+        
+        dfs(nums,flag, path,result);
+        return result;
+    }
+private:
+    void dfs(vector<int>& nums, vector<bool>& flag, vector<int>& p, vector<vector<int>>& r){
+        if(p.size() == nums.size()){
+            r.push_back(p);
+            return;
+        }
+        for(int i=0; i<nums.size(); ++i){
+            if(flag[i] == true)
+                continue;
+            flag[i] = true;
+            p.push_back(nums[i]);
+        
+            dfs(nums, flag, p, r);
+            flag[i] = false;
+            p.pop_back();
+        }
+    }
