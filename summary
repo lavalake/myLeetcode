@@ -285,3 +285,29 @@ private:
             p.pop_back();
         }
     }
+
+Combination Sum III 
+vector<vector<int>> combinationSum3(int k, int n) {
+        vector<vector<int>> result;
+        vector<int> path;
+        dfs(k,n,1,path,result);
+        return result;
+    }
+    private:
+    void dfs(int k, int n, int index, vector<int>& p, vector<vector<int>>& r){
+        if(n == 0 && k == p.size()){
+            r.push_back(p);
+            return;
+        }
+        if(k == p.size())
+            return;
+        for(int i=index; i<=9; ++i){
+            //prone, when i>n, there is no solution for this branch!!!!!!
+            if(i>n)
+                break;
+            p.push_back(i);
+            //note: here it's i+1 not index+1!!!!!!!!!!!!!!!!
+            dfs(k,n-i,i+1,p,r);
+            p.pop_back();
+        }
+    }
