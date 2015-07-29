@@ -311,3 +311,24 @@ vector<vector<int>> combinationSum3(int k, int n) {
             p.pop_back();
         }
     }
+
+Permutation Sequence
+public:
+    string getPermutation(int n, int k) {
+        vector<int> numSet = {1,2,3,4,5,6,7,8,9};
+        string result;
+        int i;
+        int fact=1;
+        for(i=1; i<=n; ++i){
+            fact *= i;
+        }
+        //note k--!!!!!
+        for(i=0,k--; i<n; ++i){
+            fact /= n-i;
+            int r = k/fact;
+            result.push_back('0'+numSet[r]);
+            numSet.erase(numSet.begin()+r);
+            k = k%fact;
+        }
+        return result;
+    }
