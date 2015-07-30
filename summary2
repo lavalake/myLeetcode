@@ -138,3 +138,44 @@ public:
             }
         }
     }
+    
+Word Ladder
+https://leetcode.com/discuss/28573/share-my-two-end-bfs-in-c-80ms
+two end bfs
+public:
+    int ladderLength(string beginWord, string endWord, unordered_set<string>& wordDict) {
+        unordered_set<string> beginSet, endSet;
+        int len = beginWord.size();
+        int path=1;
+        beginSet.insert(beginWord);
+        endSet.insert(endWord);
+        while(!beginSet.empty() || !endSet.empty()){
+            unordered_set<string> *tempSet1,*tempSet2,itmSet;
+            if(beginSet.size()>=endSet.size()){
+                tempSet1 = &beginSet;
+                tempSet2 = &endSet;
+            }else{
+                tempSet1 = &endSet;
+                tempSet2 = &beginSet;
+            }
+            path++;
+            for(auto s:*tempSet1){
+                for(int i=0; i<len; ++i){
+                    char c = s[i];
+                    for(int j=0; j<26; ++j){
+                        s[i] = 'a'+j;
+                        if(tempSet2->find(s) != tempSet2->end())
+                            return path;
+                        else if(wordDict.find(s) != wordDict.end()){
+                            itmSet.insert(s);
+                            wordDict.erase(s);
+                        }
+                        
+                    }
+                    s[i] = c;
+                }
+            }
+            swap(*tempSet1,itmSet);
+        }
+        return 0;
+    }
