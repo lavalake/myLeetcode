@@ -93,3 +93,15 @@ public:
         }
         return false;
     }
+
+
+    /*use multiset. Note use advance() template to move forward k-1
+     *advance() will mutate the input iterator.
+    */
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+       multiset<int> pq(nums.begin(), nums.end());
+       auto itr = pq.rbegin();
+       advance(itr,k-1);
+       return *itr;
+    }
