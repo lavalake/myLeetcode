@@ -1,0 +1,42 @@
+Kth Largest Element in an Array
+first solution use priority queue
+/*O(n + klogn) complexity: O(n) for build_max_heap;
+    *O(klogn) for k times of max_heapify in findKthLargest
+    */
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+       priority_queue<int> pq(nums.begin(), nums.end());
+       while(k>1){
+           pq.pop();
+           --k;
+       }
+       return pq.top();
+    }
+second solution use partition, quick sort    
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        if(k > nums.size())
+            return -1;
+        int left=0, right = nums.size()-1;
+        
+            while(left<=right){
+                int pos = partition(nums, left, right);
+                if(pos == k-1) return nums[pos];
+                if(pos < k-1) left = pos+1;
+                if(pos > k-1) right = pos-1;
+            }
+            
+    }
+    private:
+    int partition(vector<int>& nums, int left, int right){
+        int pivot = left;
+        ++left;
+        while(left<=right){
+            if(nums[left]<=nums[pivot] && nums[right]>nums[pivot])
+                swap(nums[left++], nums[right--]);
+            while(nums[left]>nums[pivot] && left<=right) ++left;
+            while(nums[right]<=nums[pivot] && left<=right) --right;
+        }
+        swap(nums[right],nums[pivot]);
+        return right;
+    }
