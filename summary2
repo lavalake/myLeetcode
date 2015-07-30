@@ -105,3 +105,36 @@ public:
        advance(itr,k-1);
        return *itr;
     }
+
+palindrome partition
+public:
+    vector<vector<string>> partition(string s) {
+        vector<vector<bool>> flag(s.size(),vector<bool>(s.size(),false));
+        vector<vector<string>> result;
+        vector<string> p;
+        for(int i=0; i<s.size(); ++i){
+            for(int j=0; j<=i; ++j){
+                if(i-j<2 && (s[i]==s[j]))
+                    flag[j][i] = true;
+                else if(s[i]==s[j] && flag[j+1][i-1]==true)
+                    flag[j][i] = true;
+                    
+            }
+        }
+        backTracking(s, flag, 0,p, result);
+        return result;
+    }
+    private:
+    void backTracking(string& s, vector<vector<bool>>& f, int start, vector<string>& p, vector<vector<string>>& r){
+        if(start == s.size()){
+            r.push_back(p);
+            return;
+        }
+        for(int j=start; j<s.size(); ++j){
+            if(f[start][j] == true){
+                p.push_back(s.substr(start,j-start+1));
+                backTracking(s,f,j+1,p,r);
+                p.pop_back();
+            }
+        }
+    }
