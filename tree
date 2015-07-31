@@ -1,0 +1,24 @@
+1. Binary Tree Inorder Traversal
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        stack<struct TreeNode*> st;
+        vector<int> result;
+        struct TreeNode* cur = root;
+        
+        while(cur || !st.empty()){
+           
+           if(cur){
+               
+               st.push(cur);
+               cur = cur->left;
+               
+           }else{
+               cur = st.top();
+               st.pop();
+               result.push_back(cur->val);
+               cur = cur->right;
+           }
+           
+        }
+        return result;
+    }
