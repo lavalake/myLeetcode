@@ -22,3 +22,47 @@ public:
         }
         return result;
     }
+
+2. Symmetric Tree
+first, iterative version
+public:
+/*like preorder. Use two queue to save the left and right subtree.
+*/
+    bool isSymmetric(TreeNode* root) {
+        if(root == NULL)
+            return true;
+        queue<TreeNode*> leftQ, rightQ;
+        leftQ.push(root->left);
+        rightQ.push(root->right);
+        while(!leftQ.empty() && !rightQ.empty()){
+            TreeNode* left = leftQ.front();
+            leftQ.pop();
+            TreeNode* right = rightQ.front();
+            rightQ.pop();
+            if(left == NULL && right == NULL)
+                continue;
+            if(left == NULL || right == NULL)
+                return false;
+            if(left->val != right->val)
+                return false;
+            leftQ.push(left->left);
+            leftQ.push(left->right);
+            rightQ.push(right->right);
+            rightQ.push(right->left);
+        }
+        return true;
+    }
+recursive version   
+public:
+    bool isSymmetric(TreeNode* root) {
+        if(root == NULL)
+            return true;
+        return (isSym(root->left,root->right));
+    }
+    private:
+    bool isSym(TreeNode* node1, TreeNode* node2){
+        if(node1 == NULL) return node2 == NULL;
+        if(node2 == NULL) return false;
+        if(node1->val != node2->val) return false;
+        return isSym(node1->left, node2->right) && isSym(node1->right, node2->left);
+    }
