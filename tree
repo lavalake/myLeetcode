@@ -24,34 +24,29 @@ public:
     }
 
 2. Symmetric Tree
-first, iterative version
+first, iterative version. use pair to store the left and right subnode
+typedef pair<TreeNode*, TreeNode*> nodepair;
 public:
-/*like preorder. Use two queue to save the left and right subtree.
-*/
     bool isSymmetric(TreeNode* root) {
-        if(root == NULL)
-            return true;
-        queue<TreeNode*> leftQ, rightQ;
-        leftQ.push(root->left);
-        rightQ.push(root->right);
-        while(!leftQ.empty() && !rightQ.empty()){
-            TreeNode* left = leftQ.front();
-            leftQ.pop();
-            TreeNode* right = rightQ.front();
-            rightQ.pop();
-            if(left == NULL && right == NULL)
-                continue;
-            if(left == NULL || right == NULL)
-                return false;
-            if(left->val != right->val)
-                return false;
-            leftQ.push(left->left);
-            leftQ.push(left->right);
-            rightQ.push(right->right);
-            rightQ.push(right->left);
+        // Level-order BFS.
+        queue<nodepair> q;
+        if(root)
+            q.push(make_pair(root->left,root->right));
+        while(q.size()){
+            nodepair p=q.front(); q.pop();
+            if(p.first){
+                if(!p.second)return false;
+                if(p.first->val != p.second->val) return false;
+                // the order of children pushed to q is the key to the solution.
+                q.push(make_pair(p.first->left,p.second->right));
+                q.push(make_pair(p.first->right,p.second->left));
+            }
+            else if(p.second) return false;
         }
         return true;
     }
+    
+    
 recursive version   
 public:
     bool isSymmetric(TreeNode* root) {
