@@ -84,3 +84,70 @@ public:
         }
         return true;
     }
+
+/*use post order traversal because post oder will visit left and right first
+    * this property meet the requirement when we visti the left and right, we can
+    * back track
+    */
+    Following is detailed algorithm.
+
+1.1 Create an empty stack
+2.1 Do following while root is not NULL
+    a) Push root's right child and then root to stack.
+    b) Set root as root's left child.
+2.2 Pop an item from stack and set it as root.
+    a) If the popped item has a right child and the right child 
+       is at top of stack, then remove the right child from stack,
+       push the root back and set root as root's right child.
+    b) Else print root's data and set root as NULL.
+2.3 Repeat steps 2.1 and 2.2 while stack is not empty.
+http://www.geeksforgeeks.org/iterative-postorder-traversal-using-stack/
+public:
+    bool hasPathSum(TreeNode* root, int sum) {
+        stack<TreeNode*> st;
+        TreeNode* itr = root;
+        while(itr != NULL || !st.empty()){
+            while(itr != NULL){
+                if(itr->right != NULL)
+                    st.push(itr->right);
+                st.push(itr);
+                sum -= itr->val;
+                itr = itr->left;
+            }
+            TreeNode* temp = st.top();
+            st.pop();
+            if(temp->left == NULL && temp->right == NULL && sum == 0)
+                return true;
+            if(temp->right && !st.empty() && temp->right == st.top()){
+                itr = st.top();
+                st.pop();
+                st.push(temp);
+            }else{
+                sum += temp->val;
+
+            }
+        }
+        return false;
+    }
+    
+6. Balanced Binary Tree
+bottom up use dfs,O(n)
+public:
+    bool isBalanced(TreeNode* root) {
+        if(dfs(root) == -1) return false;
+        else return true;
+    }
+    private:
+    int dfs(TreeNode* root){
+        if(root == NULL)
+            return 0;
+        int leftH = dfs(root->left);
+        if(leftH == -1)
+            return -1;
+        int rightH = dfs(root->right);
+        if(rightH == -1)
+            return -1;
+        if(abs(leftH-rightH) > 1)
+            return -1;
+        return max(leftH, rightH)+1;
+    }
