@@ -61,3 +61,26 @@ public:
         if(node1->val != node2->val) return false;
         return isSym(node1->left, node2->right) && isSym(node1->right, node2->left);
     }
+
+3.Same Tree
+ /*use pair to save the corresponding nodes of two tree
+    */
+    typedef pair<TreeNode*,TreeNode*> nodePair;
+public:
+    bool isSameTree(TreeNode* p, TreeNode* q) {
+        queue<nodePair> pq;
+        pq.push(make_pair(p,q));
+        while(!pq.empty()){
+            nodePair np = pq.front();
+            pq.pop();
+            if(np.first==NULL && np.second==NULL)
+                continue;
+            if(np.first==NULL || np.second==NULL)
+                return false;
+            if(np.first->val != np.second->val)
+                return false;
+            pq.push(make_pair(np.first->left,np.second->left));
+            pq.push(make_pair(np.first->right,np.second->right));
+        }
+        return true;
+    }
