@@ -184,3 +184,47 @@ public:
         }
         return sum[n];
     }
+
+9.Flatten Binary Tree to Linked List
+class Solution {
+    /*use pre order
+    */
+public:
+    void flatten(TreeNode* root) {
+        stack<TreeNode*> st;
+        if(!root)
+            return ;
+        st.push(root);
+        while(!st.empty()){
+            TreeNode *cur = st.top();
+            st.pop();
+            if(cur->right)
+                st.push(cur->right);
+            if(cur->left)
+                st.push(cur->left);
+            cur->left = NULL;
+            st.empty()?cur->right = NULL:cur->right = st.top();
+        }
+    }
+};
+
+class Solution {
+    /*O(1) space, no need stack. Note, the right most node of the left
+     * tree is the pre node of the right tree.
+    */
+public:
+    void flatten(TreeNode* root) {
+        TreeNode *now = root;
+        while(now){
+            if(now->left){
+                TreeNode *pre = now->left;
+                while(pre->right)
+                    pre = pre->right;
+                pre->right = now->right;
+                now->right = now->left;
+                now->left = NULL;
+            }
+            now = now->right;
+        }
+    }
+};
