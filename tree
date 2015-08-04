@@ -228,3 +228,25 @@ public:
         }
     }
 };
+
+10. Count Complete Tree Nodes
+class Solution {
+public:
+    int countNodes(TreeNode* root) {
+         int lh=0, rh=0;
+         
+        TreeNode *left = root;
+        TreeNode *right = root;
+         while(left){
+             ++lh;
+             left = left->left;
+         } 
+         while(right){
+             ++rh;
+             right = right->right;
+         } 
+         if(lh == rh) return pow(2,lh)-1;
+         return countNodes(root->left) + countNodes(root->right) + 1;
+         
+    }
+};
