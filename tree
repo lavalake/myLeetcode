@@ -250,3 +250,27 @@ public:
          
     }
 };
+
+11. Construct Binary Tree from Preorder and Inorder Traversal
+class Solution {
+    //typedef vector<int>::iterator itr;
+public:
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        
+        return buildSubTree(preorder.begin(),preorder.end(),inorder.begin(),inorder.end());
+    }
+    private:
+    /*note, here end is exclusive.[start,end). so end need move 1 furthr
+    */
+    template<typename itr>
+    TreeNode* buildSubTree(itr pre_start, itr pre_end, itr in_start, itr in_end){
+        
+        if(pre_start == pre_end) return nullptr;
+        TreeNode *root = new TreeNode(*pre_start);
+        auto pos = find(in_start, in_end, *pre_start);
+        auto dist = distance(in_start,pos);
+        root->left = buildSubTree(next(pre_start),next(pre_start,dist+1), in_start, pos);
+        root->right = buildSubTree(next(pre_start,dist+1),pre_end, next(pos), in_end);
+        return root;
+    }
+};
