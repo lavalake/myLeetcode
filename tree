@@ -274,3 +274,25 @@ public:
         return root;
     }
 };
+
+12. Construct Binary Tree from Inorder and Postorder Traversal
+/*note, find() is upper exclusive.[start,end)
+*/
+class Solution {
+    typedef vector<int>::iterator itr;
+public:
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+       return build(inorder.begin(),inorder.end(),postorder.begin(),postorder.end());
+    }
+    private:
+       TreeNode* build(itr in_begin, itr in_end, itr post_begin, itr post_end){
+           if(in_begin == in_end) return nullptr;
+           TreeNode* root = new TreeNode(*prev(post_end));
+           auto pos = find(in_begin, in_end, *prev(post_end));
+           auto dist = distance(in_begin, pos);
+           root->left = build(in_begin,pos,post_begin,next(post_begin,dist));
+           root->right = build(next(pos),in_end,next(post_begin,dist),prev(post_end));
+           return root;
+           
+       }
+};
