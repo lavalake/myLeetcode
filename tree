@@ -333,3 +333,46 @@ public:
         return result;
     }
 };
+
+
+14. Recover Binary Search Tree 
+class Solution {
+public:
+    void recoverTree(TreeNode* root) {
+        stack<TreeNode*> st;
+        TreeNode *cur,*pre = NULL;
+        TreeNode *first=NULL,*second=NULL;
+        if(root)
+            cur = root;
+        while(cur || !st.empty()){
+            while(cur){
+                st.push(cur);
+                cur = cur->left;
+                
+            }
+            cur = st.top();
+            st.pop();
+            if(pre){
+                if(cur->val < pre->val){
+                    /***note, the first must be the larger one and the second must be the smaller one!!!!*/
+                    if(!first){
+                        first = pre;
+                        second = cur;
+                    }else{
+                        second = cur;
+                    }
+                    
+                }
+            }
+            pre = cur;
+            if(cur->right){
+                cur = cur->right;
+            }else{
+                cur = NULL;
+            }
+        }
+        if(first && second)
+            swap(first->val,second->val);
+        
+    }
+};
