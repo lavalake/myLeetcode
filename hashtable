@@ -92,3 +92,26 @@ public:
         return sum;
     }
 };
+
+
+3.Contains Duplicate II
+This solution use map insert not []. Becasue Insert will tell you
+whehter the key exist. [] will create new key if it does not exist
+class Solution {
+public:
+    bool containsNearbyDuplicate(vector<int>& nums, int k) {
+        unordered_map<int,int> map;
+        for(int i=0; i<nums.size(); ++i){
+            auto itr = map.find(nums[i]);
+            if(itr != map.end() && (i - itr->second <= k))
+                return true;
+            else{
+                if(itr != map.end())
+                    itr->second = i;
+                else
+                    map.insert(make_pair(nums[i],i));
+            }
+        }
+        return false;
+    }
+};
