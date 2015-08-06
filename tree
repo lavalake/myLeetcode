@@ -336,6 +336,8 @@ public:
 
 
 14. Recover Binary Search Tree 
+http://www.cnblogs.com/AnnieKim/archive/2013/06/15/morristraversal.html
+can use morris to get O(1) space
 class Solution {
 public:
     void recoverTree(TreeNode* root) {
