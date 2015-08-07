@@ -80,3 +80,50 @@ public:
         return dummy.next;
     }
 };
+
+
+4. reorder list
+class Solution {
+public:
+    void reorderList(ListNode* head) {
+        ListNode *fast=head, *slow=head, *pre=nullptr;
+        while(fast){
+            fast = fast->next;
+            if(fast)
+                fast = fast->next;
+            pre = slow;
+            slow = slow->next;
+        }
+        if(pre)
+            pre->next = nullptr;
+        ListNode *reverse_head = reverse(slow);
+        merge(head,reverse_head);
+    }
+private:
+    ListNode* reverse(ListNode* head){
+        ListNode *pre=nullptr, *cur = head, *next = nullptr;
+        while(cur){
+            next = cur->next;
+            cur->next = pre;
+            pre = cur;
+            cur = next;
+        }
+        return pre;
+    }
+    ListNode *merge(ListNode *head1, ListNode *head2){
+        ListNode *head = head1, *cur, dummy(-1);
+        cur = &dummy;
+        while(head1 && head2){
+            
+            cur->next = head1;
+            head1 = head1->next;
+            cur = cur->next;
+            cur->next = head2;
+            head2 = head2->next;
+            /*!!!!!!!!!remember this, cur=cur->next!!!!!!!*/
+            cur = cur->next;
+        }
+        cur->next = head1?head1:head2;
+        return dummy.next;
+    }
+};
