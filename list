@@ -153,3 +153,29 @@ public:
         return dummy.next;
     }
 };
+
+
+6.Partition List
+class Solution {
+public:
+    ListNode* partition(ListNode* head, int x) {
+        ListNode *less=nullptr, *large=nullptr;
+        ListNode dummy1(-1),dummy2(-1);
+        less = &dummy1;
+        large = &dummy2;
+        while(head){
+            if(head->val < x){
+                less->next = head;
+                less = head;
+            }else{
+                large->next = head;
+                large = head;
+            }
+            head = head->next;
+                
+        }
+        less->next = dummy2.next;
+        large->next = nullptr;
+        return dummy1.next;
+    }
+};
