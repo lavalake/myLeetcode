@@ -127,3 +127,29 @@ private:
         return dummy.next;
     }
 };
+
+5. Remove Duplicates from Sorted List II 
+/*compare with pre and next. if not equal, link to the list*/
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        if(!head || !head->next)
+            return head;
+        ListNode *cur=head, *next=head->next,*pre=nullptr;
+        ListNode *start, dummy(0);
+        start = &dummy;
+        
+        while(cur){
+            if((!pre || pre->val != cur->val) && (!next || next->val != cur->val)){
+                start->next = cur;
+                start = cur;
+            }
+            pre = cur;
+            cur = next;
+            if(cur)
+                next = cur->next;
+        }
+        start->next = nullptr;
+        return dummy.next;
+    }
+};
