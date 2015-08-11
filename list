@@ -179,3 +179,69 @@ public:
         return dummy1.next;
     }
 };
+
+
+7. Convert Sorted List to Binary Search Tree
+class Solution {
+public:
+    TreeNode* sortedListToBST(ListNode* head) {
+        ListNode *fast=head, *slow=head, *pre=nullptr,dummy(-1);
+        TreeNode *root = new TreeNode(-1);
+        dummy.next = head;
+        pre = &dummy;
+        if(!head)
+            return nullptr;
+        while(fast && fast->next){
+            fast = fast->next->next;
+            pre = slow;
+            slow = slow->next;
+        }
+        
+        pre->next=nullptr;
+        root->val = slow->val;
+        root->left = sortedListToBST(dummy.next);
+        root->right = sortedListToBST(slow->next);
+        return root;
+        
+    }
+};
+
+8. Reverse Nodes in k-Group
+class Solution {
+public:
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        ListNode *pre, dummy(-1), *start=head,* end=head;
+        dummy.next = head;
+        pre = &dummy;
+        while(1){
+            ListNode *newStart=nullptr;
+            /*note!!this should be k-1. because if k is 1, we do not need to reverse anything*/
+            int i=k-1;
+            while(end && i){
+                end = end->next;
+                --i;
+            }
+            if(i || !end)
+                break;
+            pre->next = end;
+            pre = start;
+            newStart = end->next;
+            reverse(start,end);
+            start = newStart;
+            end = newStart;
+        }
+        /*do not forget to handle the remaining nodes which is not divided by K!!!!!!!!!!*/
+        pre->next = start;
+        return dummy.next;
+    }
+private:
+    void reverse(ListNode *s, ListNode *e){
+        ListNode *pre = nullptr,*cur = s;
+        while(pre != e){
+            ListNode *next = cur->next;
+            cur->next = pre;
+            pre = cur;
+            cur = next;
+        }
+    }
+};
