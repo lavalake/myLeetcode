@@ -245,3 +245,52 @@ private:
         }
     }
 };
+
+
+9.Add Two Numbers
+class Solution {
+    /*1. add two digits until one list reach end
+     *2. if any list is not end, continue add the list with the carry bit
+     *3. 
+    */
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode *num1, *num2, *sum, dummy(-1);
+
+        num1=l1;
+        num2=l2;
+        ListNode *pre = &dummy;
+        int carry=0;
+        while(num1 && num2){
+            sum = new ListNode((num1->val+num2->val+carry)%10);
+            carry = (num1->val+num2->val+carry)/10;
+            pre->next = sum;
+            pre = sum;
+            num1=num1->next;
+            num2=num2->next;
+        }
+        ListNode *num = num1?num1:num2;
+        /*note, if num not null or carry not 0, should continue*/
+        while(num || carry){
+            if(num){
+                sum = new ListNode((num->val + carry)%10);
+                carry = (num->val + carry)/10;
+                num = num->next;
+            }else{
+                sum = new ListNode(carry);
+                carry = 0;
+            }
+            
+            pre->next = sum;
+            pre = sum;
+            
+        }
+        /*do forget set nullptr*/
+        pre->next = nullptr;
+        
+
+        return dummy.next;
+        
+    }
+
+};
