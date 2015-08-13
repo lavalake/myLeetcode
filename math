@@ -240,3 +240,49 @@ public:
         return col;
     }
 };
+
+6. 
+class Solution {
+    /*
+     *note abs of INT_MIN will overflow. so use long long
+     *use map the save the remaining and the index in the string
+    */
+public:
+    string fractionToDecimal(int numerator, int denominator) {
+        
+        
+        string result;
+        if(!denominator)
+            return result;
+        if(numerator == 0)
+            return "0";
+        unordered_map<int,int> map;
+        int sign = (numerator>0)^(denominator>0)?-1:1;
+        if(sign == -1)
+            result.append(1,'-');
+        long long d = labs(denominator);
+        long long n = labs(numerator);
+        result.append(to_string((n/d)));
+        
+        n %= d;
+        if(n != 0)
+            result.append(1,'.');
+
+        while(n && map.find(n) == map.end()){
+            int nmt = n;
+            n *=10;
+            
+            map.insert(make_pair(nmt,result.size()));
+            result.append(to_string(n/d));
+            n %= d;
+        }
+        
+        
+        if(n){
+            
+            result.insert(map[n],1,'(');
+            result.append(1,')');
+        }
+        return result;
+    }
+};
