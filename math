@@ -219,3 +219,24 @@ public:
         return sign*count;
     }
 };
+
+5.Excel Sheet Column Title
+class Solution {
+    /*
+     *from end to begining
+     *minus one first
+     */
+public:
+    string convertToTitle(int n) {
+        string col;
+        while(n){
+            /*minus 1 first becasue starting from 1*/
+            --n;
+            col.append(1,n%26+'A');
+            n = n/26;
+        }
+        
+        reverse(col.begin(),col.end());
+        return col;
+    }
+};
