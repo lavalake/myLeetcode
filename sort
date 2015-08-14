@@ -22,3 +22,35 @@ public:
         }
     }
 };
+
+2. largest number
+http://fusharblog.com/3-ways-to-define-comparison-functions-in-cpp/
+http://stackoverflow.com/questions/13801311/compare-function-in-a-class-for-stdsort-cant-compile
+The problem is that your cmp method needs to be static. The reason is that non-static methods
+expect an invisible first argument, the this pointer. The std::sort function do not pass this extra argument.
+class Solution {
+    /*use custome compare function for the sort()
+     *the custome compare function must be static
+     */
+public:
+    string largestNumber(vector<int>& nums) {
+        vector<string> str;
+        for(auto i:nums){
+            str.push_back(to_string(i));
+        }
+        sort(str.begin(),str.end(),compareFun);
+        string result;
+        for(auto i:str){
+            result.append(i);
+        }
+        if(result.find_first_not_of('0') == string::npos)
+            return "0";
+        return result;
+    }
+
+private:
+ static bool compareFun(const string& num1, const string& num2){
+        
+        return num1+num2>num2+num1;
+    }
+};
