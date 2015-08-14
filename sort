@@ -1,0 +1,24 @@
+1. sort color
+this is similar with quick sort but not identical.
+because quick sort will not take care the same value with the pivot.
+the same value may lie in the left or right half.
+for this case, the pivot must in the midle.
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int start=0, end=nums.size()-1;
+        int cur = 0;
+        while(cur<=end){
+            int i = nums[cur];
+            if(i < 1 && start!=cur){
+                swap(nums[start++],nums[cur]);
+                
+            }
+            else if(i > 1)
+                swap(nums[end--],nums[cur]);
+               
+            else
+                ++cur;
+        }
+    }
+};
