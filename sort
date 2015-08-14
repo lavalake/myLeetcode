@@ -54,3 +54,27 @@ private:
         return num1+num2>num2+num1;
     }
 };
+
+3. merge intervals
+class Solution {
+public:
+    vector<Interval> merge(vector<Interval>& intervals) {
+        sort(intervals.begin(),intervals.end(),compareFunc);
+        vector<Interval> result;
+        for(auto itv:intervals){
+            if(result.empty() || itv.start > result.back().end)
+                result.push_back(itv);
+            else if(itv.end > result.back().end){
+                /*can use back to access the variable*/
+                result.back().end = itv.end;
+            }else{
+                
+            }
+        }
+        return result;
+    }
+private:
+    static bool compareFunc(Interval n, Interval m){
+        return (n.start < m.start);
+    }
+};
